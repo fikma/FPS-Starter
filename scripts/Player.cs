@@ -2,31 +2,39 @@ using Godot;
 
 public class Player : KinematicBody
 {
-    [Export]
+	[Export]
 	public float GRAVITY = -24.8f;
 	[Export]
-    public int MAX_SPEED = 20;
+	public int MAX_SPEED = 20;
 	[Export]
-    public int JUMP_SPEED = 18;
+	public int JUMP_SPEED = 18;
 	[Export]
-    public float ACCELERATE = 4.5f;
+	public float ACCELERATE = 4.5f;
 	[Export]
-    public float DEACCELERATE = 16.5f;
+	public float DEACCELERATE = 16.5f;
 	[Export]
-    public float MAX_SLOPE_ANGLE = 40;
+	public float MAX_SLOPE_ANGLE = 40;
+    [Export]
+    public float MaxSprintSpeed = 30.0f;
+    [Export]
+    public float SprintAccel = 18.0f;
+
+    private bool _isSprinting = false;
 
 	private Vector3 _velocity = new Vector3();
 	Vector3 direction = new Vector3();
 
-	Camera camera;
-	Spatial _rotationalHelper;
+	private Camera _camera;
+	private Spatial _rotationalHelper;
+    private SpotLight _flashLight;
 
 	float mouseSensitivity = 0.05f;
 
 	public override void _Ready()
 	{
-		camera = GetNode<Camera>("Rotation_Helper/Camera");
+		_camera = GetNode<Camera>("Rotation_Helper/Camera");
 		_rotationalHelper = GetNode<Spatial>("Rotation_Helper");
+        _flashLight = GetNode<SpotLight>("Rotation_Helper/Flashlight");
 
 		Input.SetMouseMode(Input.MouseMode.Captured);
 	}
@@ -62,11 +70,19 @@ public class Player : KinematicBody
 		horizontalVelocity.y = 0;
 
 		var target = direction;
-		target *= MAX_SPEED;
+        if (_isSprinting)
+            target *= MaxSprintSpeed;
+        else
+            target *= MAX_SPEED;
 
 		float accel;
-		if (direction.Dot(horizontalVelocity) > 0)
-			accel = ACCELERATE;
+        if (direction.Dot(horizontalVelocity) > 0)
+        {
+            if (_isSprinting)
+                accel = SprintAccel;
+            else
+                accel = ACCELERATE;
+        }
 		else
 			accel = DEACCELERATE;
 
@@ -87,7 +103,7 @@ public class Player : KinematicBody
 	{
 		// berjalan
 		direction = new Vector3();
-		Transform camXform = camera.GlobalTransform;
+		Transform camXform = _camera.GlobalTransform;
 
 		Vector2 inputMovementVector = new Vector2();
 
@@ -120,5 +136,15 @@ public class Player : KinematicBody
 				Input.SetMouseMode(Input.MouseMode.Visible);
 		}
 
-	}
+        // Sprinting
+        if (Input.IsActionPressed("movement_sprint")) _isSprinting = true;
+        else _isSprinting = false;
+
+        // Turning the flashlight
+        if (Input.IsActionPressed("flashlight"))
+        {
+            if (_flashLight.IsVisibleInTree()) _flashLight.Hide();
+            else _flashLight.Show();
+        }
+    }
 }
