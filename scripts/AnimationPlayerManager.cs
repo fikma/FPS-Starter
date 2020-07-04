@@ -5,7 +5,12 @@ public class AnimationPlayerManager : AnimationPlayer
 {
     private Dictionary<string, Array<string>> _states = new Dictionary<string, Array<string>>
     {
-        {"Idle_unarmed", new Array<string>{ "Knife_equip", "Idle_unarmed" }},
+        {"Idle_unarmed", new Array<string>{ "Rifle_equip", "Knife_equip", "Idle_unarmed" }},
+
+        {"Rifle_equip", new Array<string> { "Rifle_idle" } },
+        {"Rifle_fire", new Array<string> { "Rifle_idle" } },
+        {"Rifle_idle", new Array<string> { "Rifle_fire", "Rifle_reload", "Rifle_unequip", "Rifle_idle" } },
+        {"Rifle_unequip", new Array<string> { "Idle_unarmed" } },
 
         {"Knife_equip", new Array<string> { "Knife_idle" } },
         {"Knife_fire", new Array<string> { "Knife_idle" } },
@@ -21,6 +26,12 @@ public class AnimationPlayerManager : AnimationPlayer
         { "Knife_fire", 1.35f},
         { "Knife_unequip", 1},
         { "Knife_idle", 1},
+
+        { "Rifle_equip", 2},
+        { "Rifle_fire", 6f},
+        { "Rifle_unequip", 2},
+        { "Rifle_idle", 1},
+        { "Rifle_reload", 1.45f},
     };
 
     public string CurrentState = "";
@@ -82,6 +93,17 @@ public class AnimationPlayerManager : AnimationPlayer
             case "Knife_fire":
                 SetAnimation("Knife_idle"); break;
             case "Knife_unequip":
+                SetAnimation("Idle_unarmed"); break;
+
+            case "Rifle_idle":
+                break;
+            case "Rifle_equip":
+                SetAnimation("Rifle_idle"); break;
+            case "Rifle_fire":
+                SetAnimation("Rifle_idle"); break;
+            case "Rifle_reload":
+                SetAnimation("Rifle_idle"); break;
+            case "Rifle_unequip":
                 SetAnimation("Idle_unarmed"); break;
         }
     }
