@@ -1,4 +1,3 @@
-using System;
 using Godot;
 using Godot.Collections;
 
@@ -36,19 +35,19 @@ public class Player : KinematicBody
 
 	private string _currentWeaponName = "UNARMED";
 
-	private Dictionary<string, Spatial> _weapons = new Dictionary<string, Spatial>
+	private Dictionary<string, AbcWeapon> _weapons = new Dictionary<string, AbcWeapon>
 	{
-		{ "UNARMED", null }, { "KNIFE", null },
+		{ "UNARMED", null }, { "KNIFE", null }, { "RIFLE", null },
 	};
 
 	private readonly Dictionary<int, string> WEAPON_NUMBER_TO_NAME = new Dictionary<int, string>
 	{
-		{0, "UNARMED"}, {1, "KNIFE"}
+		{0, "UNARMED"}, {1, "KNIFE"}, {2, "RIFLE"}
 	};
 
 	private readonly Dictionary<string, int> WEAPON_NAME_TO_NUMBER = new Dictionary<string, int>
 	{
-		{"UNARMED", 0}, {"KNIFE", 1}
+		{"UNARMED", 0}, {"KNIFE", 1}, {"RIFLE", 2}
 	};
 
 	private bool _changingWeapon = false;
@@ -69,18 +68,17 @@ public class Player : KinematicBody
 		Input.SetMouseMode(Input.MouseMode.Captured);
 
 		_weapons["KNIFE"] = GetNode<WeaponKnife>("Rotation_Helper/Gun_Fire_Points/Knife_Point");
+		_weapons["RIFLE"] = GetNode<WeaponRifle>("Rotation_Helper/Gun_Fire_Points/Rifle_Point");
 
 		var gunAimPointPos = GetNode<Spatial>("Rotation_Helper/Gun_Aim_Point").GlobalTransform.origin;
 
-		foreach(var weapon in _weapons.Keys)
+		foreach(var weapon in _weapons.Values)
 		{
-			Spatial weaponNode = _weapons[weapon];
-			if (weaponNode != null)
+			if (weapon != null)
 			{
-				var aWeaponNode = weaponNode as WeaponKnife;
-				aWeaponNode.PlayerNode = this;
-				aWeaponNode.LookAt(gunAimPointPos, Vector3.Up);
-				aWeaponNode.RotateObjectLocal(Vector3.Up, Mathf.Deg2Rad(180));
+				weapon.PlayerNode = this;
+				weapon.LookAt(gunAimPointPos, Vector3.Up);
+				weapon.RotateObjectLocal(Vector3.Up, Mathf.Deg2Rad(180));
 			}
 		}
 
@@ -116,7 +114,7 @@ public class Player : KinematicBody
 	{
 		if (_changingWeapon == true) return;
 
-		(_weapons[_currentWeaponName] as WeaponKnife).FireWeapon();
+		(_weapons[_currentWeaponName] as AbcWeapon).FireWeapon();
 	}
 
 	private void ProcessChangingWeapons(float delta)
@@ -124,7 +122,7 @@ public class Player : KinematicBody
 		if (_changingWeapon == true)
 		{
 			var weaponUnequiped = false;
-			var currentWeapon = _weapons[_currentWeaponName] as WeaponKnife;
+			var currentWeapon = _weapons[_currentWeaponName] as AbcWeapon;
 
 			if (currentWeapon == null)
 				weaponUnequiped = true;
@@ -139,7 +137,7 @@ public class Player : KinematicBody
 			if (weaponUnequiped == true)
 			{
 				var weaponEquiped = false;
-				var weaponToEquip = _weapons[_changingWeaponName] as WeaponKnife;
+				var weaponToEquip = _weapons[_changingWeaponName] as AbcWeapon;
 
 				if (weaponToEquip == null)
 					weaponEquiped = true;
@@ -257,6 +255,8 @@ public class Player : KinematicBody
 			weaponChangeNumber = 0;
 		if (Input.IsKeyPressed((int)KeyList.Key2))
 			weaponChangeNumber = 1;
+		if (Input.IsKeyPressed((int)KeyList.Key3))
+			weaponChangeNumber = 2;
 
 		if (Input.IsActionJustPressed("shift_weapon_positive"))
 			weaponChangeNumber += 1;
@@ -276,10 +276,10 @@ public class Player : KinematicBody
 		if (Input.IsActionPressed("fire"))
 			if (_changingWeapon.Equals(false))
 			{
-				var currentWeapon = _weapons[_currentWeaponName] as WeaponKnife;
+				var currentWeapon = _weapons[_currentWeaponName] as AbcWeapon;
 				if (currentWeapon != null)
-					if (AnimationManager.CurrentState == currentWeapon.IdleAnimName)
-						AnimationManager.SetAnimation(currentWeapon.FireAnimName);
+					if (AnimationManager.CurrentState == currentWeapon.IDLE_ANIM_NAME)
+						AnimationManager.SetAnimation(currentWeapon.FIRE_ANIM_NAME);
 			}
 	}
 }

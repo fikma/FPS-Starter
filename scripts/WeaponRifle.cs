@@ -1,19 +1,13 @@
 ﻿using Godot;
 
-public class WeaponRifle : Spatial
+public class WeaponRifle : AbcWeapon
 {
     private const int DAMAGE = 4;
 
-    private const string IDLE_ANIM_NAME = "Rifle_idle";
-    public string IdleAnimName { get => IDLE_ANIM_NAME; }
-    private const string FIRE_ANIM_NAME = "Rifle_fire";
-    public string FireAnimName { get => FIRE_ANIM_NAME; }
+    public override string IDLE_ANIM_NAME => "Rifle_idle";
+    public override string FIRE_ANIM_NAME => "Rifle_fire";
 
-    public bool IsWeaponEnabled = false;
-
-    public Player PlayerNode = null;
-
-    public void FireWeapon()
+    public override void FireWeapon()
     {
         var ray = GetNode<RayCast>("Ray_Cast");
         ray.ForceRaycastUpdate();
@@ -30,9 +24,9 @@ public class WeaponRifle : Spatial
         }
     }
 
-    public bool EquipWeapon()
+    public override bool EquipWeapon()
     {
-        if (PlayerNode.AnimationManager.CurrentState == IdleAnimName)
+        if (PlayerNode.AnimationManager.CurrentState == IDLE_ANIM_NAME)
         {
             IsWeaponEnabled = true;
             return true;
@@ -44,9 +38,9 @@ public class WeaponRifle : Spatial
         return false;
     }
 
-    public bool UnequipWeapon()
+    public override bool UnequipWeapon()
     {
-        if (PlayerNode.AnimationManager.CurrentState == IdleAnimName)
+        if (PlayerNode.AnimationManager.CurrentState == IDLE_ANIM_NAME)
             if (PlayerNode.AnimationManager.CurrentState != "Rifle_unequip")
                 PlayerNode.AnimationManager.SetAnimation("Rifle_unequip");
 

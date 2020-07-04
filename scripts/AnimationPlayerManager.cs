@@ -9,6 +9,7 @@ public class AnimationPlayerManager : AnimationPlayer
 
         {"Rifle_equip", new Array<string> { "Rifle_idle" } },
         {"Rifle_fire", new Array<string> { "Rifle_idle" } },
+        {"Rifle_reload", new Array<string> { "Rifle_idle" } },
         {"Rifle_idle", new Array<string> { "Rifle_fire", "Rifle_reload", "Rifle_unequip", "Rifle_idle" } },
         {"Rifle_unequip", new Array<string> { "Idle_unarmed" } },
 
@@ -110,7 +111,7 @@ public class AnimationPlayerManager : AnimationPlayer
 
     public void AnimationCallback()
     {
-        if (CallbackFunction.Equals(null))
+        if (CallbackFunction == null)
             GD.Print("AnimationPlayerManager.gd -- WARNING: Tidak callback function untuk  animation tuk dipanggil!");
         else
             CallbackFunction();

@@ -63,6 +63,7 @@
     <Compile Include="scripts\WeaponKnife.cs" />
     <Compile Include="scripts\RigidBodyHitTest.cs" />
     <Compile Include="scripts\WeaponRifle.cs" />
+    <Compile Include="scripts\AbcWeapon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
