@@ -133,5 +133,6 @@ common/physics_fps=30
 
 [rendering]
 
-quality/filters/anisotropic_filter_level=2
+quality/driver/driver_name="GLES2"
 environment/default_environment="res://default_env.tres"
+quality/filters/anisotropic_filter_level=2

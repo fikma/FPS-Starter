@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://assets/Colors.material" type="Material" id=1]
 [ext_resource path="res://assets/Emission.material" type="Material" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://assets/32-32_white.png" type="Texture" id=7]
 [ext_resource path="res://assets/Titillium-Regular.otf" type="DynamicFontData" id=8]
 [ext_resource path="res://scripts/Player.cs" type="Script" id=9]
+[ext_resource path="res://scripts/AnimationPlayerManager.cs" type="Script" id=10]
+[ext_resource path="res://scripts/WeaponKnife.cs" type="Script" id=11]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -857,6 +859,20 @@ tracks/34/loop_wrap = true
 tracks/34/imported = true
 tracks/34/enabled = true
 tracks/34/keys = PoolRealArray( 0, 1, 5.96046e-08, 1.86265e-08, 1.3411e-07, -0.546097, 0.0503074, 0.0508105, 0.834665, 1, 1, 1, 1, 1, 5.96046e-08, 1.86265e-08, 1.3411e-07, -0.546097, 0.0503074, 0.0508105, 0.834665, 1, 1, 1 )
+tracks/35/type = "method"
+tracks/35/path = NodePath("Animation_Player")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "AnimationCallback"
+} ]
+}
 
 [sub_resource type="Animation" id=10]
 resource_name = "Knife_idle"
@@ -4064,6 +4080,7 @@ anims/Rifle_fire = SubResource( 18 )
 anims/Rifle_idle = SubResource( 19 )
 anims/Rifle_reload = SubResource( 20 )
 anims/Rifle_unequip = SubResource( 21 )
+script = ExtResource( 10 )
 
 [node name="Camera" type="Camera" parent="Rotation_Helper"]
 transform = Transform( -1, 0, 3.25841e-07, 0, 1, 0, -3.25841e-07, 0, -1, 0, -0.307539, -0.0646362 )
@@ -4082,6 +4099,7 @@ cast_to = Vector3( 0, 0, 80 )
 
 [node name="Knife_Point" type="Spatial" parent="Rotation_Helper/Gun_Fire_Points"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.163315, 10.4607, 2.54082 )
+script = ExtResource( 11 )
 
 [node name="Area" type="Area" parent="Rotation_Helper/Gun_Fire_Points/Knife_Point"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.17163, 1.26893 )
@@ -4207,6 +4225,9 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Health: 100
 Ammo: 000/000
 "
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Death_Screen" type="ColorRect" parent="HUD"]
 visible = false

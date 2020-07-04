@@ -1,7 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="scripts/Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="scripts/RigidBodyHitTest.cs">
     <Files>
-      <File FileName="scripts/Player.cs" Line="1" Column="13" />
+      <File FileName="scripts/Player.cs" Line="119" Column="68" />
+      <File FileName="scripts/AnimationPlayerManager.cs" Line="40" Column="10" />
+      <File FileName="scripts/WeaponKnife.cs" Line="22" Column="10" />
+      <File FileName="scripts/RigidBodyHitTest.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -9,7 +12,7 @@
           <Node name="Godot FPS" expanded="True">
             <Node name="Godot FPS" expanded="True">
               <Node name="scripts" expanded="True">
-                <Node name="Player.cs" selected="True" />
+                <Node name="RigidBodyHitTest.cs" selected="True" />
               </Node>
             </Node>
           </Node>
