@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://assets/Colors.material" type="Material" id=1]
 [ext_resource path="res://assets/Emission.material" type="Material" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://scripts/Player.cs" type="Script" id=9]
 [ext_resource path="res://scripts/AnimationPlayerManager.cs" type="Script" id=10]
 [ext_resource path="res://scripts/WeaponKnife.cs" type="Script" id=11]
+[ext_resource path="res://scripts/WeaponRifle.cs" type="Script" id=12]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -4093,6 +4094,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.3914, 0 )
 
 [node name="Rifle_Point" type="Spatial" parent="Rotation_Helper/Gun_Fire_Points"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.163315, 10.4607, 7.04431 )
+script = ExtResource( 12 )
 
 [node name="Ray_Cast" type="RayCast" parent="Rotation_Helper/Gun_Fire_Points/Rifle_Point"]
 cast_to = Vector3( 0, 0, 80 )
