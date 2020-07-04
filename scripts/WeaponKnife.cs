@@ -2,7 +2,7 @@
 
 public class WeaponKnife : AbcWeapon
 {
-    const int DAMAGE = 40;
+    public override int DAMAGE => 40;
     public override string IDLE_ANIM_NAME => "Knife_idle";
     public override string FIRE_ANIM_NAME => "Knife_fire";
 

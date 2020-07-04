@@ -2,7 +2,7 @@
 
 public class WeaponRifle : AbcWeapon
 {
-    private const int DAMAGE = 4;
+    public override int DAMAGE => 4;
 
     public override string IDLE_ANIM_NAME => "Rifle_idle";
     public override string FIRE_ANIM_NAME => "Rifle_fire";

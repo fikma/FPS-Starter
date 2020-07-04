@@ -64,6 +64,8 @@
     <Compile Include="scripts\RigidBodyHitTest.cs" />
     <Compile Include="scripts\WeaponRifle.cs" />
     <Compile Include="scripts\AbcWeapon.cs" />
+    <Compile Include="scripts\WeaponPistol.cs" />
+    <Compile Include="scripts\BulletScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

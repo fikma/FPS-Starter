@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://assets/Colors.material" type="Material" id=1]
 [ext_resource path="res://assets/Emission.material" type="Material" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://scripts/AnimationPlayerManager.cs" type="Script" id=10]
 [ext_resource path="res://scripts/WeaponKnife.cs" type="Script" id=11]
 [ext_resource path="res://scripts/WeaponRifle.cs" type="Script" id=12]
+[ext_resource path="res://scripts/WeaponPistol.cs" type="Script" id=13]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -1865,6 +1866,20 @@ tracks/34/loop_wrap = true
 tracks/34/imported = true
 tracks/34/enabled = true
 tracks/34/keys = PoolRealArray( 0, 1, 1.54972e-06, -9.574e-07, -5.1409e-07, 0.00332353, -0.0589074, 0.159316, 0.985463, 1, 1, 1, 0.0666667, 1, 1.54972e-06, -9.574e-07, -5.1409e-07, -0.0508508, -0.0403509, 0.175271, 0.982378, 1, 1, 1, 0.133333, 1, 1.54972e-06, -9.574e-07, -5.1409e-07, -0.131989, -0.0121728, 0.198097, 0.971179, 1, 1, 1, 0.2, 1, 1.54972e-06, -9.574e-07, -5.1409e-07, -0.131989, -0.0121728, 0.198097, 0.971179, 1, 1, 1, 0.266667, 1, 2.98023e-07, -1.09337e-06, 1.78814e-07, -0.0508508, -0.0403509, 0.175271, 0.982378, 1, 1, 1, 0.333333, 1, -1.78814e-07, -9.46224e-07, 8.9407e-08, 0.00332355, -0.0589073, 0.159316, 0.985463, 1, 1, 1, 0.666667, 1, 1.54972e-06, -9.574e-07, -5.1409e-07, 0.00332353, -0.0589074, 0.159316, 0.985463, 1, 1, 1 )
+tracks/35/type = "method"
+tracks/35/path = NodePath("Animation_Player")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "AnimationCallback"
+} ]
+}
 
 [sub_resource type="Animation" id=14]
 length = 0.0416667
@@ -4128,6 +4143,7 @@ shape = SubResource( 22 )
 
 [node name="Pistol_Point" type="Spatial" parent="Rotation_Helper/Gun_Fire_Points"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.436506, 11.3604, 4.77607 )
+script = ExtResource( 13 )
 
 [node name="Gun_Aim_Point" type="Spatial" parent="Rotation_Helper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.307539, 20.0487 )
