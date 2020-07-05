@@ -1,4 +1,3 @@
-using System;
 using Godot;
 using Godot.Collections;
 
@@ -35,6 +34,8 @@ public class Player : KinematicBody
 	public AnimationPlayerManager AnimationManager;
 
 	private string _currentWeaponName = "UNARMED";
+
+	private bool _reloadingWeapon = false;
 
 	private Dictionary<string, AbcWeapon> _weapons = new Dictionary<string, AbcWeapon>
 	{
@@ -96,10 +97,11 @@ public class Player : KinematicBody
 		ProcessInput(delta);
 		ProcessMovement(delta);
 		ProcessChangingWeapons(delta);
-        ProcessUI(delta);
+		ProcessReloading(delta);
+		ProcessUI(delta);
 	}
 
-    public override void _Input(InputEvent @event)
+	public override void _Input(InputEvent @event)
 	{
 		if(@event is InputEventMouseMotion && Input.GetMouseMode().Equals(Input.MouseMode.Captured))
 		{
@@ -140,7 +142,7 @@ public class Player : KinematicBody
 			if (weaponUnequiped == true)
 			{
 				var weaponEquiped = false;
-				var weaponToEquip = _weapons[_changingWeaponName] as AbcWeapon;
+				var weaponToEquip = _weapons[_changingWeaponName];
 
 				if (weaponToEquip == null)
 					weaponEquiped = true;
@@ -205,6 +207,7 @@ public class Player : KinematicBody
 
 	private void ProcessInput(float delta)
 	{
+		// ========================================================
 		// berjalan
 		direction = new Vector3();
 		Transform camXform = _camera.GlobalTransform;
@@ -221,16 +224,22 @@ public class Player : KinematicBody
 			inputMovementVector.x += 1;
 
 		inputMovementVector = inputMovementVector.Normalized();
+		// ========================================================
 
+		// ========================================================
 		// basis vector sudah ter-normalized
 		direction += -camXform.basis.z * inputMovementVector.y;
 		direction += camXform.basis.x * inputMovementVector.x;
+		// ========================================================
 
+		// ========================================================
 		// melompat
 		if (IsOnFloor())
 			if (Input.IsActionPressed("movement_jump"))
 				_velocity.y = JUMP_SPEED;
+		// ========================================================
 
+		// ========================================================
 		// menangkap/melepaskan cursor
 		if (Input.IsActionPressed("ui_cancel"))
 		{
@@ -239,6 +248,7 @@ public class Player : KinematicBody
 			else
 				Input.SetMouseMode(Input.MouseMode.Visible);
 		}
+		// ========================================================
 
 		// Sprinting
 		if (Input.IsActionPressed("movement_sprint")) _isSprinting = true;
@@ -251,6 +261,7 @@ public class Player : KinematicBody
 			else _flashLight.Show();
 		}
 
+		// =======================================================================================
 		// process changing weapon
 		var weaponChangeNumber = WEAPON_NAME_TO_NUMBER[_currentWeaponName];
 
@@ -270,34 +281,80 @@ public class Player : KinematicBody
 
 		weaponChangeNumber = Mathf.Clamp(weaponChangeNumber, 0, WEAPON_NAME_TO_NUMBER.Count - 1);
 
-		if(_changingWeapon.Equals(false))
-			if (!WEAPON_NUMBER_TO_NAME[weaponChangeNumber].Equals(_currentWeaponName))
-			{
-				_changingWeaponName = WEAPON_NUMBER_TO_NAME[weaponChangeNumber];
-				_changingWeapon = true;
-			}
+		if(_changingWeapon == false)
+			if (_reloadingWeapon == false)
+				if (WEAPON_NUMBER_TO_NAME[weaponChangeNumber] != _currentWeaponName)
+				{
+					_changingWeaponName = WEAPON_NUMBER_TO_NAME[weaponChangeNumber];
+					_changingWeapon = true;
+				}
+		// ========================================================================================
 
+		// =========================================================================================
 		// firing the weapon
 		if (Input.IsActionPressed("fire"))
-			if (_changingWeapon.Equals(false))
-			{
-				var currentWeapon = _weapons[_currentWeaponName];
-				if (currentWeapon != null)
-                    if (currentWeapon.AmmoInWeapon > 0)
-    					if (AnimationManager.CurrentState == currentWeapon.IDLE_ANIM_NAME)
-	    					AnimationManager.SetAnimation(currentWeapon.FIRE_ANIM_NAME);
-			}
+			if (_reloadingWeapon == false)
+				if (_changingWeapon == false)
+				{
+					var currentWeapon = _weapons[_currentWeaponName];
+					if (currentWeapon != null)
+						if (currentWeapon.AmmoInWeapon > 0)
+						{
+							if (AnimationManager.CurrentState == currentWeapon.IDLE_ANIM_NAME)
+								AnimationManager.SetAnimation(currentWeapon.FIRE_ANIM_NAME);
+							else
+								_reloadingWeapon = true;
+						}
+				}
+		// ===================================================================================
+
+		//=================================================================================
+		// realoading weapon
+		if (_reloadingWeapon == false)
+			if (_changingWeapon == false)
+				if (Input.IsActionJustPressed("reload"))
+				{
+					var currentWeapon = _weapons[_currentWeaponName];
+					if (currentWeapon != null)
+						if (currentWeapon.CAN_RELOAD == true)
+						{
+							var currentAnimState = AnimationManager.CurrentState;
+							var isReloading = false;
+
+							foreach(var weapon in _weapons.Values)
+							{
+								if (weapon != null)
+									if (currentAnimState == weapon.RELOAD_ANIM_NAME)
+										isReloading = true;
+							}
+
+							if (isReloading == false)
+								_reloadingWeapon = true;
+						}
+				}
+		// ==================================================================================
 	}
 
-    private void ProcessUI(float delta)
-    {
-        if (_currentWeaponName == "UNARMED" || _currentWeaponName == "KNIFE")
-            _uiStatusLabel.Text = "Health: " + GD.Str(Health);
-        else
-        {
-            var currentWeapon = _weapons[_currentWeaponName];
-            _uiStatusLabel.Text = "Health" + GD.Str(Health) +
-                "\nAmmo: " + GD.Str(currentWeapon.AmmoInWeapon) + "/" + GD.Str(currentWeapon.SpareAmmo);
-        }
-    }
+	private void ProcessUI(float delta)
+	{
+		if (_currentWeaponName == "UNARMED" || _currentWeaponName == "KNIFE")
+			_uiStatusLabel.Text = "Health: " + GD.Str(Health);
+		else
+		{
+			var currentWeapon = _weapons[_currentWeaponName];
+			_uiStatusLabel.Text = "Health" + GD.Str(Health) +
+				"\nAmmo: " + GD.Str(currentWeapon.AmmoInWeapon) + "/" + GD.Str(currentWeapon.SpareAmmo);
+		}
+	}
+
+	private void ProcessReloading(float delta)
+	{
+		if(_reloadingWeapon == true)
+		{
+			var currentWeapon = _weapons[_currentWeaponName];
+			if (currentWeapon != null)
+				currentWeapon.ReloadWeapon();
+			_reloadingWeapon = false;
+		}
+	}
 }
