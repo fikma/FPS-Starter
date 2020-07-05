@@ -37,6 +37,9 @@ public class Player : KinematicBody
 
 	private bool _reloadingWeapon = false;
 
+    private PackedScene _simpleAudioPlayer =
+        GD.Load<PackedScene>("res://Simple_Audio_Player.tscn");
+
 	private Dictionary<string, AbcWeapon> _weapons = new Dictionary<string, AbcWeapon>
 	{
 		{ "UNARMED", null }, { "KNIFE", null }, { "RIFLE", null }, { "PISTOL", null },
@@ -359,4 +362,12 @@ public class Player : KinematicBody
 			_reloadingWeapon = false;
 		}
 	}
+
+    private void CreateSound(string soundName, Vector3 position = new Vector3())
+    {
+        var audioClone = _simpleAudioPlayer.Instance() as SimpleAudioPlayer;
+        var sceneRoot = GetTree().Root.GetChildren()[0] as Spatial;
+        sceneRoot.AddChild(audioClone);
+        audioClone.PlaySound(soundName, position);
+    }
 }

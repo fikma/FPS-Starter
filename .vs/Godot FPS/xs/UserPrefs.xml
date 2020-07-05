@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.ItemProperties.Godot_220FPS PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="scripts/SimpleAudioPlayer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="scripts/Player.cs">
     <Files>
-      <File FileName="scripts/SimpleAudioPlayer.cs" Line="3" Column="13" />
+      <File FileName="scripts/SimpleAudioPlayer.cs" Line="11" Column="31" />
+      <File FileName="scripts/Player.cs" Line="40" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,7 +11,7 @@
           <Node name="Godot FPS" expanded="True">
             <Node name="Godot FPS" expanded="True">
               <Node name="scripts" expanded="True">
-                <Node name="SimpleAudioPlayer.cs" selected="True" />
+                <Node name="Player.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -22,7 +23,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/home/var/Documents/Godot/FPS-Starter/scripts/Player.cs" relfile="scripts/Player.cs" line="127" column="1" />
+      <Breakpoint file="/home/var/Documents/Godot/FPS-Starter/scripts/Player.cs" relfile="scripts/Player.cs" line="129" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
