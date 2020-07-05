@@ -31,7 +31,7 @@ public class Player : KinematicBody
 
 	float mouseSensitivity = 0.05f;
 
-	public AnimationPlayerManager AnimationManager;
+	internal AnimationPlayerManager AnimationManager;
 
 	private string _currentWeaponName = "UNARMED";
 
@@ -118,7 +118,7 @@ public class Player : KinematicBody
 		}
 	}
 
-	public void FireBullet()
+	private void FireBullet()
 	{
 		if (_changingWeapon == true) return;
 
