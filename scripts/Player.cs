@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using Godot.Collections;
 
@@ -95,9 +96,10 @@ public class Player : KinematicBody
 		ProcessInput(delta);
 		ProcessMovement(delta);
 		ProcessChangingWeapons(delta);
+        ProcessUI(delta);
 	}
 
-	public override void _Input(InputEvent @event)
+    public override void _Input(InputEvent @event)
 	{
 		if(@event is InputEventMouseMotion && Input.GetMouseMode().Equals(Input.MouseMode.Captured))
 		{
@@ -286,4 +288,16 @@ public class Player : KinematicBody
 	    					AnimationManager.SetAnimation(currentWeapon.FIRE_ANIM_NAME);
 			}
 	}
+
+    private void ProcessUI(float delta)
+    {
+        if (_currentWeaponName == "UNARMED" || _currentWeaponName == "KNIFE")
+            _uiStatusLabel.Text = "Health: " + GD.Str(Health);
+        else
+        {
+            var currentWeapon = _weapons[_currentWeaponName];
+            _uiStatusLabel.Text = "Health" + GD.Str(Health) +
+                "\nAmmo: " + GD.Str(currentWeapon.AmmoInWeapon) + "/" + GD.Str(currentWeapon.SpareAmmo);
+        }
+    }
 }
