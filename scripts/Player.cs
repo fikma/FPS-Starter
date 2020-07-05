@@ -25,7 +25,7 @@ public class Player : KinematicBody
 	private Vector3 _velocity = new Vector3();
 	Vector3 direction = new Vector3();
 
-	private Camera _camera;
+	internal Camera Camera;
 	private Spatial _rotationalHelper;
 	private SpotLight _flashLight;
 
@@ -64,7 +64,7 @@ public class Player : KinematicBody
 
 	public override void _Ready()
 	{
-		_camera = GetNode<Camera>("Rotation_Helper/Camera");
+		Camera = GetNode<Camera>("Rotation_Helper/Camera");
 		_rotationalHelper = GetNode<Spatial>("Rotation_Helper");
 
 		AnimationManager = GetNode<AnimationPlayerManager>("Rotation_Helper/Model/Animation_Player");
@@ -213,7 +213,7 @@ public class Player : KinematicBody
 		// ========================================================
 		// berjalan
 		direction = new Vector3();
-		Transform camXform = _camera.GlobalTransform;
+		Transform camXform = Camera.GlobalTransform;
 
 		Vector2 inputMovementVector = new Vector2();
 
@@ -363,7 +363,7 @@ public class Player : KinematicBody
 		}
 	}
 
-    private void CreateSound(string soundName, Vector3 position = new Vector3())
+    internal void CreateSound(string soundName, Vector3 position = new Vector3())
     {
         var audioClone = _simpleAudioPlayer.Instance() as SimpleAudioPlayer;
         var sceneRoot = GetTree().Root.GetChildren()[0] as Spatial;

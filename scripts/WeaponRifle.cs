@@ -37,6 +37,7 @@ public class WeaponRifle : AbcWeapon
         }
 
         AmmoInWeapon -= 1;
+        PlayerNode.CreateSound("Rifle_shot", ray.GlobalTransform.origin);
     }
 
     public override bool EquipWeapon()

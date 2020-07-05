@@ -48,6 +48,8 @@ public class WeaponPistol : AbcWeapon
         clone.BULLET_DAMAGE = DAMAGE;
 
         AmmoInWeapon -= 1;
+
+        PlayerNode.CreateSound("Pistol_shot", this.GlobalTransform.origin);
     }
 
     public override bool UnequipWeapon()

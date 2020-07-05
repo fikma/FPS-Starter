@@ -58,6 +58,8 @@ public abstract class AbcWeapon : Spatial
 
             PlayerNode.AnimationManager.SetAnimation(RELOAD_ANIM_NAME);
 
+            PlayerNode.CreateSound("Gun_cock", PlayerNode.Camera.GlobalTransform.origin);
+
             return true;
         }
 
