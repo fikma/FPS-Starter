@@ -6,6 +6,14 @@ public class WeaponKnife : AbcWeapon
     public override string IDLE_ANIM_NAME => "Knife_idle";
     public override string FIRE_ANIM_NAME => "Knife_fire";
 
+    public override int AMMO_IN_MAG => 1;
+
+    public WeaponKnife()
+    {
+        AmmoInWeapon = 1;
+        SpareAmmo = 1;
+    }
+
     public override void FireWeapon()
     {
         Area area = GetNode<Area>("Area");

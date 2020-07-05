@@ -2,6 +2,8 @@
 
 public class WeaponPistol : AbcWeapon
 {
+    public override int AMMO_IN_MAG => 10;
+
     public override int DAMAGE => 15;
 
     private PackedScene _bulletScene = GD.Load<PackedScene>("Bullet_Scene.tscn");
@@ -9,6 +11,12 @@ public class WeaponPistol : AbcWeapon
     public override string IDLE_ANIM_NAME => "Pistol_idle";
 
     public override string FIRE_ANIM_NAME => "Pistol_fire";
+
+    public WeaponPistol()
+    {
+        this.AmmoInWeapon = 10;
+        this.SpareAmmo = 20;
+    }
 
     public override bool EquipWeapon()
     {
@@ -33,6 +41,8 @@ public class WeaponPistol : AbcWeapon
         clone.GlobalTransform = this.GlobalTransform;
         clone.Scale = new Vector3(4, 4, 4);
         clone.BULLET_DAMAGE = DAMAGE;
+
+        AmmoInWeapon -= 1;
     }
 
     public override bool UnequipWeapon()

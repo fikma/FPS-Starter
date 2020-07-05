@@ -279,10 +279,11 @@ public class Player : KinematicBody
 		if (Input.IsActionPressed("fire"))
 			if (_changingWeapon.Equals(false))
 			{
-				var currentWeapon = _weapons[_currentWeaponName] as AbcWeapon;
+				var currentWeapon = _weapons[_currentWeaponName];
 				if (currentWeapon != null)
-					if (AnimationManager.CurrentState == currentWeapon.IDLE_ANIM_NAME)
-						AnimationManager.SetAnimation(currentWeapon.FIRE_ANIM_NAME);
+                    if (currentWeapon.AmmoInWeapon > 0)
+    					if (AnimationManager.CurrentState == currentWeapon.IDLE_ANIM_NAME)
+	    					AnimationManager.SetAnimation(currentWeapon.FIRE_ANIM_NAME);
 			}
 	}
 }

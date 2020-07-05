@@ -7,6 +7,13 @@ public class WeaponRifle : AbcWeapon
     public override string IDLE_ANIM_NAME => "Rifle_idle";
     public override string FIRE_ANIM_NAME => "Rifle_fire";
 
+    public override int AMMO_IN_MAG => 50;
+
+    public WeaponRifle()
+    {
+        AmmoInWeapon = 50;
+        SpareAmmo = 100;
+    }
     public override void FireWeapon()
     {
         var ray = GetNode<RayCast>("Ray_Cast");
@@ -22,6 +29,8 @@ public class WeaponRifle : AbcWeapon
                 aBody.BulletHit(DAMAGE, ray.GlobalTransform);
             }
         }
+
+        AmmoInWeapon -= 1;
     }
 
     public override bool EquipWeapon()
