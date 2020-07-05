@@ -8,6 +8,12 @@ public class WeaponKnife : AbcWeapon
 
     public override int AMMO_IN_MAG => 1;
 
+    public override bool CAN_RELOAD => false;
+
+    public override bool CAN_REFILL => false;
+
+    public override string RELOAD_ANIM_NAME => "";
+
     public WeaponKnife()
     {
         AmmoInWeapon = 1;
@@ -56,6 +62,11 @@ public class WeaponKnife : AbcWeapon
             return true;
         }
 
+        return false;
+    }
+
+    public override bool ReloadWeapon()
+    {
         return false;
     }
 }

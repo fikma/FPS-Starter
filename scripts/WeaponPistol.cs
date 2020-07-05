@@ -9,8 +9,13 @@ public class WeaponPistol : AbcWeapon
     private PackedScene _bulletScene = GD.Load<PackedScene>("Bullet_Scene.tscn");
 
     public override string IDLE_ANIM_NAME => "Pistol_idle";
-
     public override string FIRE_ANIM_NAME => "Pistol_fire";
+    public override string RELOAD_ANIM_NAME => "Pistol_reload";
+
+    public override bool CAN_RELOAD => true;
+
+    public override bool CAN_REFILL => true;
+
 
     public WeaponPistol()
     {
