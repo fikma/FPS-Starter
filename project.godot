@@ -127,6 +127,10 @@ change_grenade={
  ]
 }
 
+[mono]
+
+profiler/enabled=true
+
 [rendering]
 
 quality/driver/driver_name="GLES2"

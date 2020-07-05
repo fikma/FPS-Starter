@@ -66,6 +66,7 @@
     <Compile Include="scripts\AbcWeapon.cs" />
     <Compile Include="scripts\WeaponPistol.cs" />
     <Compile Include="scripts\BulletScript.cs" />
+    <Compile Include="scripts\SimpleAudioPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
