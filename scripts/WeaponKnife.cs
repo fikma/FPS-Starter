@@ -15,9 +15,11 @@ public class WeaponKnife : AbcWeapon
         {
             if (body == PlayerNode) continue;
 
-            var tmpBody = body as RigidBodyHitTest;
-            if (tmpBody.HasMethod("BulletHit"))
+            if ((body as Spatial).HasMethod("BulletHit"))
+            {
+                var tmpBody = body as RigidBodyHitTest;
                 tmpBody.BulletHit(DAMAGE, area.GlobalTransform);
+            }
         }
     }
 

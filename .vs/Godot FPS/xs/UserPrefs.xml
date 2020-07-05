@@ -1,14 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="scripts/BulletScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="scripts/WeaponKnife.cs">
     <Files>
-      <File FileName="scripts/Player.cs" Line="72" Column="90" />
-      <File FileName="scripts/AnimationPlayerManager.cs" Line="27" Column="5" />
+      <File FileName="scripts/Player.cs" Line="118" Column="31" />
+      <File FileName="scripts/AnimationPlayerManager.cs" Line="27" Column="1" />
       <File FileName="scripts/RigidBodyHitTest.cs" Line="12" Column="37" />
-      <File FileName="scripts/AbcWeapon.cs" Line="5" Column="20" />
-      <File FileName="scripts/WeaponKnife.cs" Line="7" Column="59" />
-      <File FileName="scripts/WeaponRifle.cs" Line="18" Column="40" />
-      <File FileName="scripts/WeaponPistol.cs" Line="7" Column="39" />
-      <File FileName="scripts/BulletScript.cs" Line="1" Column="14" />
+      <File FileName="scripts/AbcWeapon.cs" Line="5" Column="39" />
+      <File FileName="scripts/WeaponKnife.cs" Line="19" Column="14" />
+      <File FileName="scripts/WeaponRifle.cs" Line="5" Column="34" />
+      <File FileName="scripts/WeaponPistol.cs" Line="34" Column="12" />
+      <File FileName="scripts/BulletScript.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,7 +16,7 @@
           <Node name="Godot FPS" expanded="True">
             <Node name="Godot FPS" expanded="True">
               <Node name="scripts" expanded="True">
-                <Node name="BulletScript.cs" selected="True" />
+                <Node name="WeaponKnife.cs" selected="True" />
               </Node>
             </Node>
           </Node>

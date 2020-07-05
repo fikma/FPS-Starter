@@ -38,7 +38,7 @@ public class Player : KinematicBody
 	private Dictionary<string, AbcWeapon> _weapons = new Dictionary<string, AbcWeapon>
 	{
 		{ "UNARMED", null }, { "KNIFE", null }, { "RIFLE", null }, { "PISTOL", null },
-    };
+	};
 
 	private readonly Dictionary<int, string> WEAPON_NUMBER_TO_NAME = new Dictionary<int, string>
 	{
@@ -68,8 +68,8 @@ public class Player : KinematicBody
 		Input.SetMouseMode(Input.MouseMode.Captured);
 
 		_weapons["KNIFE"] = GetNode<WeaponKnife>("Rotation_Helper/Gun_Fire_Points/Knife_Point");
-        _weapons["RIFLE"] = GetNode<WeaponRifle>("Rotation_Helper/Gun_Fire_Points/Rifle_Point");
-        _weapons["PISTOL"] = GetNode<WeaponPistol>("Rotation_Helper/Gun_Fire_Points/Pistol_Point");
+		_weapons["RIFLE"] = GetNode<WeaponRifle>("Rotation_Helper/Gun_Fire_Points/Rifle_Point");
+		_weapons["PISTOL"] = GetNode<WeaponPistol>("Rotation_Helper/Gun_Fire_Points/Pistol_Point");
 
 		var gunAimPointPos = GetNode<Spatial>("Rotation_Helper/Gun_Aim_Point").GlobalTransform.origin;
 
@@ -115,7 +115,7 @@ public class Player : KinematicBody
 	{
 		if (_changingWeapon == true) return;
 
-		(_weapons[_currentWeaponName] as AbcWeapon).FireWeapon();
+		_weapons[_currentWeaponName].FireWeapon();
 	}
 
 	private void ProcessChangingWeapons(float delta)
@@ -258,10 +258,10 @@ public class Player : KinematicBody
 			weaponChangeNumber = 1;
 		if (Input.IsKeyPressed((int)KeyList.Key3))
 			weaponChangeNumber = 2;
-        if (Input.IsKeyPressed((int)KeyList.Key4))
-            weaponChangeNumber = 3;
+		if (Input.IsKeyPressed((int)KeyList.Key4))
+			weaponChangeNumber = 3;
 
-        if (Input.IsActionJustPressed("shift_weapon_positive"))
+		if (Input.IsActionJustPressed("shift_weapon_positive"))
 			weaponChangeNumber += 1;
 		if (Input.IsActionJustPressed("shift_weapon_negative"))
 			weaponChangeNumber -= 1;
