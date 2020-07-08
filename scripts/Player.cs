@@ -62,6 +62,10 @@ public class Player : KinematicBody
 
 	private Label _uiStatusLabel;
 
+	private int JOYPAD_SENSITIVITY = 2;
+
+	private float JOYPAD_DEADZONE = 0.15f;
+
 	public override void _Ready()
 	{
 		Camera = GetNode<Camera>("Rotation_Helper/Camera");
@@ -225,6 +229,24 @@ public class Player : KinematicBody
 			inputMovementVector.x -= 1;
 		if (Input.IsActionPressed("movement_right"))
 			inputMovementVector.x += 1;
+
+		if (Input.GetConnectedJoypads().Count > 0)
+		{
+			var joypadVec = Vector2.Zero;
+			var osName = OS.GetName();
+
+			if (osName == "Windows" || osName == "X11")
+				joypadVec = new Vector2(Input.GetJoyAxis(0, 0), -Input.GetJoyAxis(0, 1));
+			else if (osName == "OSX")
+				joypadVec = new Vector2(Input.GetJoyAxis(0, 1), Input.GetJoyAxis(0, 2));
+			
+			if (joypadVec.Length() < JOYPAD_DEADZONE)
+				joypadVec = Vector2.Zero;
+			else
+				joypadVec = joypadVec.Normalized() * ((joypadVec.Length() - JOYPAD_DEADZONE) / (1 - JOYPAD_DEADZONE));
+			
+			inputMovementVector += joypadVec;
+		}
 
 		inputMovementVector = inputMovementVector.Normalized();
 		// ========================================================
