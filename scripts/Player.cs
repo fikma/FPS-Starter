@@ -64,7 +64,7 @@ public class Player : KinematicBody
 
 	private int JOYPAD_SENSITIVITY = 2;
 
-	private float JOYPAD_DEADZONE = 0.15f;
+	private const float JOYPAD_DEADZONE = 0.15f;
 
 	public override void _Ready()
 	{
@@ -103,6 +103,7 @@ public class Player : KinematicBody
 	{
 		ProcessInput(delta);
 		ProcessMovement(delta);
+		ProcessViewInput(delta);
 		ProcessChangingWeapons(delta);
 		ProcessReloading(delta);
 		ProcessUI(delta);
@@ -392,4 +393,35 @@ public class Player : KinematicBody
         sceneRoot.AddChild(audioClone);
         audioClone.PlaySound(soundName, position);
     }
+
+	private void ProcessViewInput(float delta)
+	{
+		if (Input.GetMouseMode() == Input.MouseMode.Captured)
+			return;
+		
+
+		if (Input.GetConnectedJoypads().Count > 0)
+		{
+			var joypadVec = Vector2.Zero;
+			var osName = OS.GetName();
+		
+			if (osName == "Windows" || osName == "X11")
+				joypadVec = new Vector2(Input.GetJoyAxis(0, 2), Input.GetJoyAxis(0, 3));
+			else if (osName == "OSX")
+				joypadVec = new Vector2(Input.GetJoyAxis(0, 3), Input.GetJoyAxis(0, 4));
+			
+			if (joypadVec.Length() < JOYPAD_DEADZONE)
+				joypadVec = Vector2.Zero;
+			else
+				joypadVec = joypadVec.Normalized() * ((joypadVec.Length() - JOYPAD_DEADZONE) / (1 - JOYPAD_DEADZONE));
+			
+			_rotationalHelper.RotateX(Mathf.Deg2Rad(joypadVec.y * JOYPAD_SENSITIVITY));
+
+			RotateY(Mathf.Deg2Rad(joypadVec.x * JOYPAD_SENSITIVITY * -1));
+
+			var cameraRotation = _rotationalHelper.RotationDegrees;
+			cameraRotation.x = Mathf.Clamp(cameraRotation.x, -70, 70);
+			_rotationalHelper.RotationDegrees = cameraRotation;
+		}
+	}
 }
