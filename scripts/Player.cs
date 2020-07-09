@@ -25,13 +25,13 @@ public class Player : KinematicBody
 	private Vector3 _velocity = new Vector3();
 	Vector3 direction = new Vector3();
 
-	internal Camera Camera;
+	public Camera Camera;
 	private Spatial _rotationalHelper;
 	private SpotLight _flashLight;
 
 	float mouseSensitivity = 0.05f;
 
-	internal AnimationPlayerManager AnimationManager;
+	public AnimationPlayerManager AnimationManager;
 
 	private string _currentWeaponName = "UNARMED";
 
@@ -58,6 +58,7 @@ public class Player : KinematicBody
 	private bool _changingWeapon = false;
 	private string _changingWeaponName = "UNARMED";
 
+	public int MAX_HEALTH = 150;
 	public int Health = 100;
 
 	private Label _uiStatusLabel;
@@ -419,7 +420,7 @@ public class Player : KinematicBody
 		}
 	}
 
-	internal void CreateSound(string soundName, Vector3 position = new Vector3())
+	public void CreateSound(string soundName, Vector3 position = new Vector3())
 	{
 		var audioClone = _simpleAudioPlayer.Instance() as SimpleAudioPlayer;
 		var sceneRoot = GetTree().Root.GetChildren()[0] as Spatial;
@@ -456,5 +457,11 @@ public class Player : KinematicBody
 			cameraRotation.x = Mathf.Clamp(cameraRotation.x, -70, 70);
 			_rotationalHelper.RotationDegrees = cameraRotation;
 		}
+	}
+
+	public void AddHealth(int amount)
+	{
+		Health += amount;
+		Health = Mathf.Clamp(Health, 0, MAX_HEALTH);
 	}
 }
