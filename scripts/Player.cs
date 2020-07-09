@@ -37,8 +37,8 @@ public class Player : KinematicBody
 
 	private bool _reloadingWeapon = false;
 
-    private PackedScene _simpleAudioPlayer =
-        GD.Load<PackedScene>("res://Simple_Audio_Player.tscn");
+	private PackedScene _simpleAudioPlayer =
+		GD.Load<PackedScene>("res://Simple_Audio_Player.tscn");
 
 	private Dictionary<string, AbcWeapon> _weapons = new Dictionary<string, AbcWeapon>
 	{
@@ -65,6 +65,9 @@ public class Player : KinematicBody
 	private int JOYPAD_SENSITIVITY = 2;
 
 	private const float JOYPAD_DEADZONE = 0.15f;
+
+	private float _mouseScrollValue = 0;
+	private const float MOUSE_SCROLL_SENSITIVITY = 0.08f;
 
 	public override void _Ready()
 	{
@@ -121,6 +124,35 @@ public class Player : KinematicBody
 			cameraRotation.x = Mathf.Clamp(cameraRotation.x, -70, 70);
 			_rotationalHelper.RotationDegrees = cameraRotation;
 		}
+
+		// ========================================================================================
+		// ganti senjata dengan scroll wheel
+		if (@event is InputEventMouseButton && Input.GetMouseMode() == Input.MouseMode.Captured)
+		{
+			var e = (InputEventMouseButton)@event;
+			if (e.ButtonIndex == (int)ButtonList.WheelUp || e.ButtonIndex == (int)ButtonList.WheelDown)
+			{
+				if (e.ButtonIndex == (int)ButtonList.WheelUp)
+					_mouseScrollValue += MOUSE_SCROLL_SENSITIVITY;
+				else if (e.ButtonIndex == (int)ButtonList.WheelDown)
+					_mouseScrollValue -= MOUSE_SCROLL_SENSITIVITY;
+
+				_mouseScrollValue = Mathf.Clamp(_mouseScrollValue, 0, WEAPON_NUMBER_TO_NAME.Count - 1);
+
+				if (_changingWeapon == false)
+					if (_reloadingWeapon == false)
+					{
+						var roundScrollValue = Mathf.RoundToInt(_mouseScrollValue);
+						if (WEAPON_NUMBER_TO_NAME[roundScrollValue] != _currentWeaponName)
+						{
+							_changingWeaponName = WEAPON_NUMBER_TO_NAME[roundScrollValue];
+							_changingWeapon = true;
+							_mouseScrollValue = roundScrollValue;
+						}
+					}
+			}
+		}
+		// ========================================================================================
 	}
 
 	private void FireBullet()
@@ -135,7 +167,7 @@ public class Player : KinematicBody
 		if (_changingWeapon == true)
 		{
 			var weaponUnequiped = false;
-			var currentWeapon = _weapons[_currentWeaponName] as AbcWeapon;
+			var currentWeapon = _weapons[_currentWeaponName];
 
 			if (currentWeapon == null)
 				weaponUnequiped = true;
@@ -267,7 +299,7 @@ public class Player : KinematicBody
 
 		// ========================================================
 		// menangkap/melepaskan cursor
-		if (Input.IsActionPressed("ui_cancel"))
+		if (Input.IsActionJustPressed("ui_cancel"))
 		{
 			if (Input.GetMouseMode().Equals(Input.MouseMode.Captured))
 				Input.SetMouseMode(Input.MouseMode.Captured);
@@ -315,6 +347,7 @@ public class Player : KinematicBody
 				{
 					_changingWeaponName = WEAPON_NUMBER_TO_NAME[weaponChangeNumber];
 					_changingWeapon = true;
+					_mouseScrollValue = weaponChangeNumber;
 				}
 		// ========================================================================================
 
@@ -386,13 +419,13 @@ public class Player : KinematicBody
 		}
 	}
 
-    internal void CreateSound(string soundName, Vector3 position = new Vector3())
-    {
-        var audioClone = _simpleAudioPlayer.Instance() as SimpleAudioPlayer;
-        var sceneRoot = GetTree().Root.GetChildren()[0] as Spatial;
-        sceneRoot.AddChild(audioClone);
-        audioClone.PlaySound(soundName, position);
-    }
+	internal void CreateSound(string soundName, Vector3 position = new Vector3())
+	{
+		var audioClone = _simpleAudioPlayer.Instance() as SimpleAudioPlayer;
+		var sceneRoot = GetTree().Root.GetChildren()[0] as Spatial;
+		sceneRoot.AddChild(audioClone);
+		audioClone.PlaySound(soundName, position);
+	}
 
 	private void ProcessViewInput(float delta)
 	{
