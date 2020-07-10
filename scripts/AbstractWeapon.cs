@@ -3,18 +3,18 @@ using Godot;
 /// <summary>
 /// Abstract class untuk weapon
 /// </summary>
-public abstract class AbcWeapon : Spatial
+public abstract class AbstractWeapon : Spatial
 {
-	public int AmmoInWeapon;
-	public int SpareAmmo;
+	public byte AmmoInWeapon;
+	public ushort SpareAmmo;
 
 	public abstract bool CAN_RELOAD { get; }
 
 	public abstract bool CAN_REFILL { get; }
 
-	public abstract int AMMO_IN_MAG { get; }
+	public abstract byte AMMO_IN_MAG { get; }
 
-	public abstract int DAMAGE { get; }
+	public abstract byte DAMAGE { get; }
 
 	public abstract string IDLE_ANIM_NAME { get; }
 
@@ -43,7 +43,7 @@ public abstract class AbcWeapon : Spatial
 
 		if (canReload)
 		{
-			var ammoNeeded = AMMO_IN_MAG - AmmoInWeapon;
+			var ammoNeeded = (byte)(AMMO_IN_MAG - AmmoInWeapon);
 
 			if (SpareAmmo >= ammoNeeded)
 			{
@@ -52,7 +52,7 @@ public abstract class AbcWeapon : Spatial
 			}
 			else
 			{
-				AmmoInWeapon += SpareAmmo;
+				AmmoInWeapon = (byte)(AmmoInWeapon + SpareAmmo);
 				SpareAmmo = 0;
 			}
 

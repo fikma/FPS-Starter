@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/RigidBodyHitTest.cs" type="Script" id=2]
 [ext_resource path="res://Health_Pickup.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Ammo_Pickup.tscn" type="PackedScene" id=4]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 80, 80 )
@@ -332,3 +333,6 @@ material/0 = SubResource( 12 )
 
 [node name="Health_Pickup" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.1001, 2.75263, 0 )
+
+[node name="Ammo_Pickup" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -33.212, 2.16865, 0 )

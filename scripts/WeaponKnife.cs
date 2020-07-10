@@ -1,12 +1,12 @@
 ﻿using Godot;
 
-public class WeaponKnife : AbcWeapon
+public class WeaponKnife : AbstractWeapon
 {
-    public override int DAMAGE => 40;
+    public override byte DAMAGE => 40;
     public override string IDLE_ANIM_NAME => "Knife_idle";
     public override string FIRE_ANIM_NAME => "Knife_fire";
 
-    public override int AMMO_IN_MAG => 1;
+    public override byte AMMO_IN_MAG => 1;
 
     public override bool CAN_RELOAD => false;
 

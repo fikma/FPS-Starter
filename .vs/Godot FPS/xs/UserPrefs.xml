@@ -1,12 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="scripts/HealthPickup.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="scripts/AbstractWeapon.cs">
     <Files>
       <File FileName="scripts/SimpleAudioPlayer.cs" Line="11" Column="31" />
-      <File FileName="scripts/WeaponPistol.cs" Line="52" Column="76" />
-      <File FileName="scripts/AbstractWeapon.cs" Line="61" Column="81" />
-      <File FileName="scripts/WeaponRifle.cs" Line="1" Column="1" />
-      <File FileName="scripts/Player.cs" Line="28" Column="8" />
-      <File FileName="scripts/HealthPickup.cs" Line="60" Column="4" />
+      <File FileName="scripts/WeaponPistol.cs" Line="7" Column="25" />
+      <File FileName="scripts/WeaponRifle.cs" Line="21" Column="18" />
+      <File FileName="scripts/Player.cs" Line="472" Column="66" />
+      <File FileName="scripts/BulletScript.cs" Line="12" Column="1" />
+      <File FileName="scripts/AbstractUsableItem.cs" Line="25" Column="6" />
+      <File FileName="scripts/PickupHealth.cs" Line="16" Column="3" />
+      <File FileName="scripts/PickupAmmo.cs" Line="8" Column="6" />
+      <File FileName="scripts/AbstractWeapon.cs" Line="55" Column="52" />
+      <File FileName="scripts/WeaponKnife.cs" Line="72" Column="2" />
+      <File FileName="scripts/RigidBodyHitTest.cs" Line="7" Column="31" />
+      <File FileName="scripts/AnimationPlayerManager.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,7 +20,7 @@
           <Node name="Godot FPS" expanded="True">
             <Node name="Godot FPS" expanded="True">
               <Node name="scripts" expanded="True">
-                <Node name="HealthPickup.cs" selected="True" />
+                <Node name="AbstractWeapon.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -25,9 +31,7 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/home/var/Documents/Godot/FPS-Starter/scripts/Player.cs" relfile="scripts/Player.cs" line="131" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

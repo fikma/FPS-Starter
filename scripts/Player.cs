@@ -40,17 +40,17 @@ public class Player : KinematicBody
 	private PackedScene _simpleAudioPlayer =
 		GD.Load<PackedScene>("res://Simple_Audio_Player.tscn");
 
-	private Dictionary<string, AbcWeapon> _weapons = new Dictionary<string, AbcWeapon>
+	private Dictionary<string, AbstractWeapon> _weapons = new Dictionary<string, AbstractWeapon>
 	{
 		{ "UNARMED", null }, { "KNIFE", null }, { "RIFLE", null }, { "PISTOL", null },
 	};
 
-	private readonly Dictionary<int, string> WEAPON_NUMBER_TO_NAME = new Dictionary<int, string>
+	private readonly Dictionary<byte, string> WEAPON_NUMBER_TO_NAME = new Dictionary<byte, string>
 	{
 		{0, "UNARMED"}, {1, "KNIFE"}, {2, "RIFLE"}, {3, "PISTOL"},
 	};
 
-	private readonly Dictionary<string, int> WEAPON_NAME_TO_NUMBER = new Dictionary<string, int>
+	private readonly Dictionary<string, byte> WEAPON_NAME_TO_NUMBER = new Dictionary<string, byte>
 	{
 		{"UNARMED", 0}, {"KNIFE", 1}, {"RIFLE", 2}, {"PISTOL", 3}
 	};
@@ -58,12 +58,12 @@ public class Player : KinematicBody
 	private bool _changingWeapon = false;
 	private string _changingWeaponName = "UNARMED";
 
-	public int MAX_HEALTH = 150;
-	public int Health = 100;
+	public byte MAX_HEALTH = 150;
+	public byte Health = 100;
 
 	private Label _uiStatusLabel;
 
-	private int JOYPAD_SENSITIVITY = 2;
+	private byte JOYPAD_SENSITIVITY = 2;
 
 	private const float JOYPAD_DEADZONE = 0.15f;
 
@@ -143,7 +143,7 @@ public class Player : KinematicBody
 				if (_changingWeapon == false)
 					if (_reloadingWeapon == false)
 					{
-						var roundScrollValue = Mathf.RoundToInt(_mouseScrollValue);
+						var roundScrollValue = (byte)System.Math.Round(_mouseScrollValue);
 						if (WEAPON_NUMBER_TO_NAME[roundScrollValue] != _currentWeaponName)
 						{
 							_changingWeaponName = WEAPON_NUMBER_TO_NAME[roundScrollValue];
@@ -340,7 +340,7 @@ public class Player : KinematicBody
 		if (Input.IsActionJustPressed("shift_weapon_negative"))
 			weaponChangeNumber -= 1;
 
-		weaponChangeNumber = Mathf.Clamp(weaponChangeNumber, 0, WEAPON_NAME_TO_NUMBER.Count - 1);
+		weaponChangeNumber = (byte)Mathf.Clamp(weaponChangeNumber, 0, WEAPON_NAME_TO_NUMBER.Count - 1);
 
 		if(_changingWeapon == false)
 			if (_reloadingWeapon == false)
@@ -459,9 +459,16 @@ public class Player : KinematicBody
 		}
 	}
 
-	public void AddHealth(int amount)
+	public void AddHealth(byte amount)
 	{
 		Health += amount;
-		Health = Mathf.Clamp(Health, 0, MAX_HEALTH);
+		Health = (byte)Mathf.Clamp(Health, 0, MAX_HEALTH);
 	}
+
+    public void AddAmmo(byte amount)
+    {
+        if (_currentWeaponName != "UNARMED")
+            if (_weapons[_currentWeaponName].CAN_REFILL == true)
+                _weapons[_currentWeaponName].SpareAmmo += (ushort)(_weapons[_currentWeaponName].AMMO_IN_MAG * amount);
+    }
 }

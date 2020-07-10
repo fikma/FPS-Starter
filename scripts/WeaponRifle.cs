@@ -1,14 +1,14 @@
 ﻿using Godot;
 
-public class WeaponRifle : AbcWeapon
+public class WeaponRifle : AbstractWeapon
 {
-    public override int DAMAGE => 4;
+    public override byte DAMAGE => 4;
 
     public override string IDLE_ANIM_NAME => "Rifle_idle";
     public override string FIRE_ANIM_NAME => "Rifle_fire";
     public override string RELOAD_ANIM_NAME => "Rifle_reload";
 
-    public override int AMMO_IN_MAG => 50;
+    public override byte AMMO_IN_MAG => 50;
 
     public override bool CAN_RELOAD => true;
 

@@ -1,10 +1,10 @@
 ﻿using Godot;
 
-public class WeaponPistol : AbcWeapon
+public class WeaponPistol : AbstractWeapon
 {
-    public override int AMMO_IN_MAG => 10;
+    public override byte AMMO_IN_MAG => 10;
 
-    public override int DAMAGE => 15;
+    public override byte DAMAGE => 15;
 
     private PackedScene _bulletScene = GD.Load<PackedScene>("Bullet_Scene.tscn");
 

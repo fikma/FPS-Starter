@@ -58,7 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="scripts\HealthPickup.cs" />
+    <Compile Include="scripts\PickupAmmo.cs" />
+    <Compile Include="scripts\PickupHealth.cs" />
     <Compile Include="scripts\Player.cs" />
     <Compile Include="scripts\AnimationPlayerManager.cs" />
     <Compile Include="scripts\WeaponKnife.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="scripts\WeaponPistol.cs" />
     <Compile Include="scripts\BulletScript.cs" />
     <Compile Include="scripts\SimpleAudioPlayer.cs" />
+    <Compile Include="scripts\AbstractUsableItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

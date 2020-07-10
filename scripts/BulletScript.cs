@@ -2,10 +2,10 @@ using Godot;
 
 public class BulletScript : Spatial
 {
-	const int BULLET_SPEED = 70;
-	public int BULLET_DAMAGE = 15;
+	const byte BULLET_SPEED = 70;
+	public byte BULLET_DAMAGE = 15;
 
-	const int KILL_TIMER = 4;
+	const byte KILL_TIMER = 4;
 	private float _timer = 0;
 
 	private bool _hitSomething;
