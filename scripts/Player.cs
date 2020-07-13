@@ -80,6 +80,11 @@ public class Player : KinematicBody
 	private PackedScene _stickyGrenadeScene = GD.Load("res://Sticky_Grenade.tscn") as PackedScene;
 	private const byte GRENADE_THROW_FORCE = 50;
 
+	private RigidBodyHitTest _grabbedObject = null;
+	private const byte OBJECT_THROW_FORCE = 120;
+	private const byte OBJECT_GRAB_DISTANCE = 7;
+	private const byte OBJECT_GRAB_RAY_DISTANCE = 10;
+
 	public override void _Ready()
 	{
 		Camera = GetNode<Camera>("Rotation_Helper/Camera");
@@ -118,8 +123,11 @@ public class Player : KinematicBody
 		ProcessInput(delta);
 		ProcessMovement(delta);
 		ProcessViewInput(delta);
-		ProcessChangingWeapons(delta);
-		ProcessReloading(delta);
+		if (_grabbedObject == null)
+		{
+			ProcessChangingWeapons(delta);
+			ProcessReloading(delta);
+		}
 		ProcessUI(delta);
 	}
 
@@ -431,6 +439,45 @@ public class Player : KinematicBody
 				}
 
 			}
+		// ==================================================================================
+		// ==================================================================================
+		if (Input.IsActionJustPressed("fire") && _currentWeaponName == "UNARMED")
+		{
+			if (_grabbedObject == null)
+			{
+				var state = GetWorld().DirectSpaceState;
+
+				var centerPosition = GetViewport().Size / 2;
+				var rayFrom = Camera.ProjectRayOrigin(centerPosition);
+				var rayTo = rayFrom + Camera.ProjectRayNormal(centerPosition)  * OBJECT_GRAB_RAY_DISTANCE;
+
+				var rayResult = state.IntersectRay(rayFrom, rayTo, new Array {this, GetNode<Area>("Rotation_Helper/Gun_Fire_Points/Knife_Point/Area")});
+				if (rayResult.Count > 0)
+					if (rayResult["collider"] is RigidBody)
+					{
+						_grabbedObject = rayResult["collider"] as RigidBodyHitTest;
+						(_grabbedObject as RigidBody).Mode = RigidBody.ModeEnum.Static;
+						_grabbedObject.CollisionLayer = 0;
+						_grabbedObject.CollisionMask = 0;
+					}
+			}
+			else
+			{
+				_grabbedObject.Mode = RigidBody.ModeEnum.Rigid;
+				_grabbedObject.ApplyImpulse(Vector3.Zero, -Camera.GlobalTransform.basis.z.Normalized() * OBJECT_THROW_FORCE);
+				_grabbedObject.CollisionLayer = 1;
+				_grabbedObject.CollisionMask = 1;
+
+				_grabbedObject = null;
+			}
+		}
+
+		if (_grabbedObject != null)
+		{
+            Transform globalTransform = _grabbedObject.GlobalTransform;
+            globalTransform.origin = Camera.GlobalTransform.origin + (-Camera.GlobalTransform.basis.z.Normalized() * OBJECT_GRAB_DISTANCE);
+			_grabbedObject.GlobalTransform = globalTransform;
+		}
 		// ==================================================================================
 	}
 
