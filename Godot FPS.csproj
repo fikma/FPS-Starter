@@ -70,6 +70,7 @@
     <Compile Include="scripts\BulletScript.cs" />
     <Compile Include="scripts\SimpleAudioPlayer.cs" />
     <Compile Include="scripts\AbstractUsableItem.cs" />
+    <Compile Include="scripts\Target.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

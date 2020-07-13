@@ -25,11 +25,17 @@ public class BulletScript : Spatial
 			QueueFree();
 	}
 
-	public void Collided(RigidBodyHitTest body)
+	public void Collided(PhysicsBody body)
 	{
 		if (_hitSomething == false)
 			if (body.HasMethod("BulletHit"))
-				body.BulletHit(BULLET_DAMAGE, GlobalTransform);
+			{
+				if (body is RigidBodyHitTest aBody)
+					aBody.BulletHit(BULLET_DAMAGE, GlobalTransform);
+				else if(body is Target bBody)
+					bBody.BulletHit(BULLET_DAMAGE, GlobalTransform);
+
+			}
 
 		_hitSomething = true;
 		QueueFree();

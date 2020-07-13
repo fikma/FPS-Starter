@@ -31,8 +31,16 @@ public class WeaponRifle : AbstractWeapon
             if (body == PlayerNode) { }
             else if (body.HasMethod("BulletHit"))
             {
-                var aBody = body as RigidBodyHitTest;
-                aBody.BulletHit(DAMAGE, ray.GlobalTransform);
+                if (body is RigidBodyHitTest)
+                {
+                    var aBody = body as RigidBodyHitTest;
+                    aBody.BulletHit(DAMAGE, ray.GlobalTransform);
+                }
+                else if (body is Target)
+                {
+                    var aBody = body as Target;
+                    aBody.BulletHit(DAMAGE, ray.GlobalTransform);
+                }
             }
         }
 
