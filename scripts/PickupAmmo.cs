@@ -3,6 +3,7 @@ using Godot;
 public class PickupAmmo : AbstractUsableItem
 {
     private readonly byte[] AMMO_AMOUNTS = { 3, 1 };
+    private readonly byte[] GRENADE_AMOUNTS = { 2, 1 };
 
     public override void _Ready()
     {
@@ -39,5 +40,13 @@ public class PickupAmmo : AbstractUsableItem
             _respawnTimer = RESPAWN_TIME;
             KitSizeChangeValues(KitSize, false);
         }
+
+        if (body.HasMethod("AddGrenade"))
+        {
+            body.AddGrenade(GRENADE_AMOUNTS[KitSize]);
+            _respawnTimer = RESPAWN_TIME;
+            KitSizeChangeValues(KitSize, false);
+        }
+
     }
 }

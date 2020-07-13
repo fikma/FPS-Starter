@@ -58,10 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="scripts\AbstractGrenade.cs" />
+    <Compile Include="scripts\Grenade.cs" />
     <Compile Include="scripts\PickupAmmo.cs" />
     <Compile Include="scripts\PickupHealth.cs" />
     <Compile Include="scripts\Player.cs" />
     <Compile Include="scripts\AnimationPlayerManager.cs" />
+    <Compile Include="scripts\StickyGrenade.cs" />
     <Compile Include="scripts\WeaponKnife.cs" />
     <Compile Include="scripts\RigidBodyHitTest.cs" />
     <Compile Include="scripts\WeaponRifle.cs" />

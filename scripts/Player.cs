@@ -70,6 +70,16 @@ public class Player : KinematicBody
 	private float _mouseScrollValue = 0;
 	private const float MOUSE_SCROLL_SENSITIVITY = 0.08f;
 
+	private readonly Dictionary<string, byte> GRENADE_AMOUNTS = new Dictionary<string, byte>
+	{
+		{"Grenade", 2}, {"StickyGrenade", 2}
+	};
+
+	private string _currentGrenade = "Grenade";
+	private PackedScene _grenadeScene = GD.Load("res://Grenade.tscn") as PackedScene;
+	private PackedScene _stickyGrenadeScene = GD.Load("res://Sticky_Grenade.tscn") as PackedScene;
+	private const byte GRENADE_THROW_FORCE = 50;
+
 	public override void _Ready()
 	{
 		Camera = GetNode<Camera>("Rotation_Helper/Camera");
@@ -395,17 +405,45 @@ public class Player : KinematicBody
 						}
 				}
 		// ==================================================================================
+
+		// ==================================================================================
+		// Changing and throwing grenade
+		if (Input.IsActionJustPressed("change_grenade"))
+			if (_currentGrenade == "Grenade") _currentGrenade = "StickyGrenade";
+			else if (_currentGrenade == "StickyGrenade") _currentGrenade = "Grenade";
+		
+		if (Input.IsActionJustPressed("fire_grenade"))
+			if (GRENADE_AMOUNTS[_currentGrenade] > 0)
+			{
+				GRENADE_AMOUNTS[_currentGrenade] -= 1;
+				
+				AbstractGrenade grenadeClone = null;
+				if (_currentGrenade == "Grenade")
+					grenadeClone = _grenadeScene.Instance() as Grenade;
+				else if (_currentGrenade == "StickyGrenade")
+					grenadeClone = _stickyGrenadeScene.Instance() as StickyGrenade;
+
+				if (grenadeClone != null)
+				{
+					GetTree().Root.AddChild(grenadeClone);
+					grenadeClone.GlobalTransform = GetNode<Spatial>("Rotation_Helper/Grenade_Toss_Pos").GlobalTransform;
+					grenadeClone.ApplyImpulse(Vector3.Zero, grenadeClone.GlobalTransform.basis.z * GRENADE_THROW_FORCE);
+				}
+
+			}
+		// ==================================================================================
 	}
 
 	private void ProcessUI(float delta)
 	{
 		if (_currentWeaponName == "UNARMED" || _currentWeaponName == "KNIFE")
-			_uiStatusLabel.Text = "Health: " + GD.Str(Health);
+			_uiStatusLabel.Text = "Health: " + GD.Str(Health) + "\n" + _currentGrenade + ": " + GRENADE_AMOUNTS[_currentGrenade].ToString();
 		else
 		{
 			var currentWeapon = _weapons[_currentWeaponName];
 			_uiStatusLabel.Text = "Health" + GD.Str(Health) +
-				"\nAmmo: " + GD.Str(currentWeapon.AmmoInWeapon) + "/" + GD.Str(currentWeapon.SpareAmmo);
+				"\nAmmo: " + GD.Str(currentWeapon.AmmoInWeapon) + "/" + GD.Str(currentWeapon.SpareAmmo) +
+				"\n" + _currentGrenade + ": " + GRENADE_AMOUNTS[_currentGrenade].ToString();
 		}
 	}
 
@@ -465,10 +503,16 @@ public class Player : KinematicBody
 		Health = (byte)Mathf.Clamp(Health, 0, MAX_HEALTH);
 	}
 
-    public void AddAmmo(byte amount)
-    {
-        if (_currentWeaponName != "UNARMED")
-            if (_weapons[_currentWeaponName].CAN_REFILL == true)
-                _weapons[_currentWeaponName].SpareAmmo += (ushort)(_weapons[_currentWeaponName].AMMO_IN_MAG * amount);
-    }
+	public void AddAmmo(byte amount)
+	{
+		if (_currentWeaponName != "UNARMED")
+			if (_weapons[_currentWeaponName].CAN_REFILL == true)
+				_weapons[_currentWeaponName].SpareAmmo += (ushort)(_weapons[_currentWeaponName].AMMO_IN_MAG * amount);
+	}
+
+	public void AddGrenade(byte additionalGrenade)
+	{
+		GRENADE_AMOUNTS[_currentGrenade] += additionalGrenade;
+		GRENADE_AMOUNTS[_currentGrenade] = (byte)Mathf.Clamp(GRENADE_AMOUNTS[_currentGrenade], 0, 4);
+	}
 }
