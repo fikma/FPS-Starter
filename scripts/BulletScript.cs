@@ -2,7 +2,7 @@ using Godot;
 
 public class BulletScript : Spatial
 {
-	const byte BULLET_SPEED = 70;
+	internal byte BULLET_SPEED = 70;
 	public byte BULLET_DAMAGE = 15;
 
 	const byte KILL_TIMER = 4;
@@ -34,6 +34,10 @@ public class BulletScript : Spatial
 					aBody.BulletHit(BULLET_DAMAGE, GlobalTransform);
 				else if(body is Target bBody)
 					bBody.BulletHit(BULLET_DAMAGE, GlobalTransform);
+				else if (body is Player player)
+					player.BulletHit(BULLET_DAMAGE, GlobalTransform.origin);
+				else if (body is TurretBodies turrets)
+					turrets.BulletHit(BULLET_DAMAGE, GlobalTransform.origin);
 
 			}
 

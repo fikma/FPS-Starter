@@ -10,14 +10,14 @@ public class Grenade : AbstractGrenade
 	private CollisionShape _rigidShape;
 	private MeshInstance _grenadeMesh;
 	private Area _blastArea;
-	private Particles _explosionParticle;
+	private CPUParticles _explosionParticle;
 
 	public override void _Ready()
 	{
 		_rigidShape = GetNode<CollisionShape>("Collision_Shape");
 		_grenadeMesh = GetNode<MeshInstance>("Grenade");
 		_blastArea = GetNode<Area>("Blast_Area");
-		_explosionParticle = GetNode<Particles>("Explosion");
+		_explosionParticle = GetNode<CPUParticles>("Explosion");
 
 		_explosionParticle.Emitting = false;
 		_explosionParticle.OneShot = true;

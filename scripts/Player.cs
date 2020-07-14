@@ -562,4 +562,9 @@ public class Player : KinematicBody
 		GRENADE_AMOUNTS[_currentGrenade] += additionalGrenade;
 		GRENADE_AMOUNTS[_currentGrenade] = (byte)Mathf.Clamp(GRENADE_AMOUNTS[_currentGrenade], 0, 4);
 	}
+
+	internal void BulletHit(byte damage, Vector3 position)
+	{
+		Health -= damage;
+	}
 }

@@ -41,6 +41,8 @@ public class WeaponRifle : AbstractWeapon
                     var aBody = body as Target;
                     aBody.BulletHit(DAMAGE, ray.GlobalTransform);
                 }
+                else if (body is TurretBodies turret)
+                    turret.BulletHit(DAMAGE, GlobalTransform.origin);
             }
         }
 

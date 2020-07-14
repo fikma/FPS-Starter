@@ -65,6 +65,7 @@
     <Compile Include="scripts\Player.cs" />
     <Compile Include="scripts\AnimationPlayerManager.cs" />
     <Compile Include="scripts\StickyGrenade.cs" />
+    <Compile Include="scripts\Turret.cs" />
     <Compile Include="scripts\WeaponKnife.cs" />
     <Compile Include="scripts\RigidBodyHitTest.cs" />
     <Compile Include="scripts\WeaponRifle.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="scripts\SimpleAudioPlayer.cs" />
     <Compile Include="scripts\AbstractUsableItem.cs" />
     <Compile Include="scripts\Target.cs" />
+    <Compile Include="scripts\TurretBodies.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
